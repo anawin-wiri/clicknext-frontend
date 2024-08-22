@@ -6,8 +6,23 @@ const username = ref('')
 const password = ref('')
 const form = ref<InstanceType<typeof VForm> | null>(null)
 const valid = ref(true)
+import authService from '@/services/auth'
+import router from '@/router'
 const reset = () => {
   form.value?.reset()
+}
+const login = async () => {
+  const { valid } = await form.value!.validate()
+  if (valid) {
+    try {
+      const res = await authService.login(username.value, password.value)
+      localStorage.setItem('user', JSON.stringify(res.data.username))
+      localStorage.setItem('token', res.data.access_token)
+      router.push('/')
+    } catch (e) {
+      console.log(e)
+    }
+  }
 }
 </script>
 
