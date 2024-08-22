@@ -1,4 +1,15 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const items = [
+  {
+    promotion: 'แลก 200 คะแนนอัพไซส์เครื่องดื่มจาก M เป็น L',
+    src: '/1.jpg',
+    point: 200,
+    exp: '31 ต.ค. 66'
+  },
+  { promotion: 'ส่วนลด Sizzler 50 บาท', src: '/img-01.png', point: 250, exp: '31 ต.ค. 66' },
+  { promotion: 'ส่วนลด MisterDonut 50 บาท', src: '/donut.png', point: 250, exp: '31 ต.ค. 66' }
+]
+</script>
 <template>
   <v-app>
     <v-main>
@@ -86,8 +97,107 @@
               <v-card-text class="bold-text custom-padding my-1">6210</v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="4" class="d-flex align-center justify-center"> 2 </v-col>
-          <v-col cols="4" class="d-flex align-center justify-center"> 3 </v-col>
+          <v-col cols="4" class="d-flex align-center justify-center">
+            <v-card
+              class="rounded-card d-flex flex-column align-center justify-center"
+              width="100%"
+            >
+              <v-card-text class="d-flex align-center justify-center">
+                <v-img
+                  src="https://demo-point-insurance.clicknext.com/images/icn_kcal.svg"
+                  class="small-img"
+                  height="65"
+                  width="65"
+                  contain
+                ></v-img>
+              </v-card-text>
+              <v-card-text class="small-text custom-padding">Burn</v-card-text>
+              <v-card-text class="bold-text custom-padding my-1">320 kcal</v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="d-flex align-center justify-center">
+            <v-card
+              class="rounded-card d-flex flex-column align-center justify-center"
+              width="100%"
+            >
+              <v-card-text class="d-flex align-center justify-center">
+                <v-img
+                  src="/wired-outline-1249-heart-beat-2.gif"
+                  class="small-img"
+                  height="65"
+                  width="65"
+                  contain
+                ></v-img>
+              </v-card-text>
+              <v-card-text class="small-text custom-padding">Heart Rate</v-card-text>
+              <v-card-text class="bold-text custom-padding my-1">110 BPM</v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col cols="6">
+            <h1 class="bold-heading">For You</h1>
+          </v-col>
+          <v-col cols="6" class="d-flex justify-end">
+            <v-btn variant="plain" class="small-text custom-btn"> See All </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-slide-group show-arrows>
+            <v-slide-item v-for="(item, i) in items" :key="i">
+              <v-card class="mx-2 rounded-card" width="400">
+                <v-img
+                  :src="item.src"
+                  height="250px"
+                  width="100%"
+                  aspect-ratio="16/9"
+                  class="zoom-image"
+                  cover
+                ></v-img>
+                <v-card-text>{{ item.promotion }}</v-card-text>
+                <v-card-text
+                  :style="{ color: '#9966FF' }"
+                  class="bold-text custom-padding-nospacing"
+                  >{{ item.point + ' คะแนน' }}</v-card-text
+                >
+                <v-card-text class="small-text">{{ 'หมดอายุ ' + item.exp }}</v-card-text>
+              </v-card>
+            </v-slide-item>
+          </v-slide-group>
+        </v-row>
+      </v-container>
+      <v-container>
+        <v-row>
+          <v-col cols="6">
+            <h1 class="bold-heading">Hot Deal!</h1>
+          </v-col>
+          <v-col cols="6" class="d-flex justify-end">
+            <v-btn variant="plain" class="small-text custom-btn"> See All </v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-slide-group show-arrows>
+            <v-slide-item v-for="(item, i) in items" :key="i">
+              <v-card class="mx-2 rounded-card" width="400">
+                <v-img
+                  :src="item.src"
+                  height="250px"
+                  width="100%"
+                  aspect-ratio="16/9"
+                  cover
+                ></v-img>
+                <v-card-text>{{ item.promotion }}</v-card-text>
+                <v-card-text
+                  :style="{ color: '#9966FF' }"
+                  class="bold-text custom-padding-nospacing"
+                  >{{ item.point + ' คะแนน' }}</v-card-text
+                >
+                <v-card-text class="small-text">{{ 'หมดอายุ ' + item.exp }}</v-card-text>
+              </v-card>
+            </v-slide-item>
+          </v-slide-group>
         </v-row>
       </v-container>
     </v-main>
@@ -118,6 +228,11 @@
   font-size: 24px; /* ขนาดตัวเลข */
 }
 
+.bold-heading {
+  font-weight: bold; /* ทำให้ตัวเลขตัวหนา */
+  font-size: 30px;
+}
+
 .small-text {
   font-size: 18px; /* ขนาดของคำว่า "คะแนน" */
 }
@@ -130,5 +245,29 @@
 .custom-padding {
   padding-top: 0px; /* ลด padding ด้านบน */
   padding-bottom: 2px; /* ลด padding ด้านล่าง */
+}
+
+.custom-padding-nospacing {
+  padding-top: 0px; /* ลด padding ด้านบน */
+  padding-bottom: 0px; /* ลด padding ด้านล่าง */
+}
+
+.custom-btn {
+  text-transform: none; /* ทำให้ตัวอักษรไม่เป็นพิมพ์ใหญ่ทั้งหมด */
+  color: rgb(0, 187, 201); /* เปลี่ยนสีตัวอักษรเป็นสีฟ้า */
+}
+.zoom-image {
+  transition: transform 2s ease-in-out;
+  animation: zoom 4s infinite;
+}
+
+@keyframes zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* ซูมเข้า */
+  }
 }
 </style>
