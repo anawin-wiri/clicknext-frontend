@@ -2,7 +2,7 @@
 const items = [
   {
     promotion: 'แลก 200 คะแนนอัพไซส์เครื่องดื่มจาก M เป็น L',
-    src: '/1.jpg',
+    src: '/kamu.png',
     point: 200,
     exp: '31 ต.ค. 66'
   },
@@ -147,7 +147,7 @@ const items = [
         <v-row>
           <v-slide-group show-arrows>
             <v-slide-item v-for="(item, i) in items" :key="i">
-              <v-card class="mx-2 rounded-card" width="400">
+              <v-card class="mx-2 my-2 rounded-card" width="400">
                 <v-img
                   :src="item.src"
                   height="250px"
@@ -156,7 +156,7 @@ const items = [
                   class="zoom-image"
                   cover
                 ></v-img>
-                <v-card-text>{{ item.promotion }}</v-card-text>
+                <v-card-text class="mt-2">{{ item.promotion }}</v-card-text>
                 <v-card-text
                   :style="{ color: '#9966FF' }"
                   class="bold-text custom-padding-nospacing"
@@ -171,7 +171,7 @@ const items = [
       <v-container>
         <v-row>
           <v-col cols="6">
-            <h1 class="bold-heading">Hot Deal!</h1>
+            <h1 class="bold-heading">Hot Deals!</h1>
           </v-col>
           <v-col cols="6" class="d-flex justify-end">
             <v-btn variant="plain" class="small-text custom-btn"> See All </v-btn>
@@ -180,14 +180,17 @@ const items = [
         <v-row>
           <v-slide-group show-arrows>
             <v-slide-item v-for="(item, i) in items" :key="i">
-              <v-card class="mx-2 rounded-card" width="400">
+              <v-card class="mx-2 my-2 rounded-card" width="400">
                 <v-img
                   :src="item.src"
                   height="250px"
                   width="100%"
                   aspect-ratio="16/9"
+                  class="zoom-image"
                   cover
-                ></v-img>
+                >
+                  <div class="overlay">Hot Deals!</div>
+                </v-img>
                 <v-card-text>{{ item.promotion }}</v-card-text>
                 <v-card-text
                   :style="{ color: '#9966FF' }"
@@ -259,6 +262,17 @@ const items = [
 .zoom-image {
   transition: transform 2s ease-in-out;
   animation: zoom 4s infinite;
+}
+.overlay {
+  position: absolute;
+  top: 10px; /* ระยะห่างจากด้านบน */
+  left: 10px; /* ระยะห่างจากด้านซ้าย */
+  background-color: #ff6666; /* พื้นหลังสีดำโปร่งใส */
+  color: white; /* สีข้อความ */
+  padding: 5px 10px; /* การจัดการระยะห่างภายใน */
+  border-radius: 5px; /* ขอบมุมกลม */
+  font-size: 16px; /* ขนาดข้อความ */
+  border: 2px solid #ffffff;
 }
 
 @keyframes zoom {
