@@ -29,10 +29,20 @@
               </div>
             </v-col>
           </v-row>
-          <v-row>
-            <div>
-              <v-progress-linear color="blue" value="40" height="8"></v-progress-linear>
-            </div>
+          <v-row class="d-flex align-center justify-center mx-4">
+            <v-progress-linear
+              bg-color="grey"
+              buffer-color="green"
+              buffer-opacity="30"
+              buffer-value="250"
+              color="blue"
+              height="9"
+              max="500"
+              min="0"
+              model-value="2"
+              rounded
+            ></v-progress-linear>
+            <div class="ms-4">Elite</div>
           </v-row>
           <v-row class="d-flex align-center justify-center my-5">
             <div class="d-flex align-center">
@@ -56,13 +66,30 @@
           </v-row>
         </v-card>
       </v-container>
-      <v-component class="bg-blue">
-        <v-row
-          ><v-col>1</v-col>
-          <v-col>2</v-col>
-          <v-col>3</v-col></v-row
-        >
-      </v-component>
+      <v-container>
+        <v-row>
+          <v-col cols="4" class="d-flex align-center justify-center">
+            <v-card
+              class="rounded-card d-flex flex-column align-center justify-center"
+              width="100%"
+            >
+              <v-card-text class="d-flex align-center justify-center">
+                <v-img
+                  src="/wired-flat-646-walking-walkcycle-person-2.gif"
+                  class="small-img"
+                  height="65"
+                  width="65"
+                  contain
+                ></v-img>
+              </v-card-text>
+              <v-card-text class="small-text custom-padding">Step count</v-card-text>
+              <v-card-text class="bold-text custom-padding my-1">6210</v-card-text>
+            </v-card>
+          </v-col>
+          <v-col cols="4" class="d-flex align-center justify-center"> 2 </v-col>
+          <v-col cols="4" class="d-flex align-center justify-center"> 3 </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -92,6 +119,16 @@
 }
 
 .small-text {
-  font-size: 14px; /* ขนาดของคำว่า "คะแนน" */
+  font-size: 18px; /* ขนาดของคำว่า "คะแนน" */
+}
+.pa-4 {
+  padding: 16px; /* กำหนด padding รอบๆ การ์ด */
+}
+.text-center {
+  text-align: center;
+}
+.custom-padding {
+  padding-top: 0px; /* ลด padding ด้านบน */
+  padding-bottom: 2px; /* ลด padding ด้านล่าง */
 }
 </style>
