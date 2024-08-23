@@ -16,6 +16,7 @@
     "@chenfengyuan/vue-carousel": "^2.0.0",
     "@mdi/js": "^7.4.47",
     "axios": "^1.7.4",
+    "date-fns": "^3.6.0",
     "jwt-decode": "^4.0.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",

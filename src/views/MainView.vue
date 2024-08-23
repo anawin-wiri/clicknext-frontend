@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type User from '@/types/user'
+import type Reward from '@/types/reward'
 import { onMounted, ref } from 'vue'
 import userService from '@/services/user'
+import rewardService from '@/services/reward'
+import { format } from 'date-fns'
+import { th } from 'date-fns/locale'
 const items = [
   {
     promotion: 'แลก 200 คะแนนอัพไซส์เครื่องดื่มจาก M เป็น L',
@@ -12,11 +16,17 @@ const items = [
   { promotion: 'ส่วนลด Sizzler 50 บาท', src: '/img-01.png', point: 250, exp: '31 ต.ค. 66' },
   { promotion: 'ส่วนลด MisterDonut 50 บาท', src: '/donut.png', point: 250, exp: '31 ต.ค. 66' }
 ]
+
 const currentUser = ref<User>()
+const rewards = ref<Reward[]>()
+
+const formatDateToThai = (date: Date) => {
+  return format(date, 'dd MMM yy', { locale: th })
+}
 
 onMounted(async () => {
-  // เรียกข้อมูลของผู้ใช้ปัจจุบัน
   currentUser.value = await userService.getCurrentUser()
+  rewards.value = await rewardService.findAll()
 })
 </script>
 <template>
@@ -158,23 +168,25 @@ onMounted(async () => {
         </v-row>
         <v-row>
           <v-slide-group show-arrows>
-            <v-slide-item v-for="(item, i) in items" :key="i">
+            <v-slide-item v-for="reward in rewards" :key="reward.rewardId">
               <v-card class="mx-2 my-2 rounded-card" width="400">
                 <v-img
-                  :src="item.src"
+                  :src="reward.rewardImg"
                   height="250px"
                   width="100%"
                   aspect-ratio="16/9"
                   class="zoom-image"
                   cover
                 ></v-img>
-                <v-card-text class="mt-2">{{ item.promotion }}</v-card-text>
+                <v-card-text class="mt-2">{{ reward.rewardDescription }}</v-card-text>
                 <v-card-text
                   :style="{ color: '#9966FF' }"
                   class="bold-text custom-padding-nospacing"
-                  >{{ item.point + ' คะแนน' }}</v-card-text
+                  >{{ `${reward.rewardPoint} ${'คะแนน'}` }}</v-card-text
                 >
-                <v-card-text class="small-text">{{ 'หมดอายุ ' + item.exp }}</v-card-text>
+                <v-card-text class="small-text">{{
+                  `${'หมดอายุ'} ${formatDateToThai(reward.endDate)}`
+                }}</v-card-text>
               </v-card>
             </v-slide-item>
           </v-slide-group>
@@ -191,10 +203,10 @@ onMounted(async () => {
         </v-row>
         <v-row>
           <v-slide-group show-arrows>
-            <v-slide-item v-for="(item, i) in items" :key="i">
+            <v-slide-item v-for="reward in rewards" :key="reward.rewardId">
               <v-card class="mx-2 my-2 rounded-card" width="400">
                 <v-img
-                  :src="item.src"
+                  :src="reward.rewardImg"
                   height="250px"
                   width="100%"
                   aspect-ratio="16/9"
@@ -203,13 +215,15 @@ onMounted(async () => {
                 >
                   <div class="overlay">Hot Deals!</div>
                 </v-img>
-                <v-card-text>{{ item.promotion }}</v-card-text>
+                <v-card-text>{{ reward.rewardDescription }}</v-card-text>
                 <v-card-text
                   :style="{ color: '#9966FF' }"
                   class="bold-text custom-padding-nospacing"
-                  >{{ item.point + ' คะแนน' }}</v-card-text
+                  >{{ `${reward.rewardPoint} ${'คะแนน'}` }}</v-card-text
                 >
-                <v-card-text class="small-text">{{ 'หมดอายุ ' + item.exp }}</v-card-text>
+                <v-card-text class="small-text">{{
+                  `${'หมดอายุ'} ${formatDateToThai(reward.endDate)}`
+                }}</v-card-text>
               </v-card>
             </v-slide-item>
           </v-slide-group>
