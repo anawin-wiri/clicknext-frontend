@@ -34,17 +34,15 @@ const router = createRouter({
   ]
 })
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = !!localStorage.getItem('token'); // ตรวจสอบ token ใน localStorage
-
+  const isAuthenticated = !!localStorage.getItem('token');
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // ถ้าหน้าต้องการการยืนยันตัวตน แต่ยังไม่ได้ล็อกอิน
     if (!isAuthenticated) {
-      next({ name: 'login' }); // ส่งไปที่หน้า Login
+      next({ name: 'login' });
     } else {
-      next(); // อนุญาตให้เข้าไปในหน้าได้
+      next();
     }
   } else {
-    next(); // อนุญาตให้เข้าไปในหน้าได้
+    next();
   }
 });
 

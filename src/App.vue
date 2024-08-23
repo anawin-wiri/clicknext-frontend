@@ -4,7 +4,6 @@ import MainView from './views/MainView.vue'
 import Navigation from './components/Navigation.vue'
 import { RouterView } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
-console.log(localStorage.getItem('token'))
 const isLogin = computed(() => {
   return !!localStorage.getItem('token')
 })

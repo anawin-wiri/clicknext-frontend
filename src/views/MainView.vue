@@ -153,7 +153,7 @@ onMounted(async () => {
             <h1 class="bold-heading">For You</h1>
           </v-col>
           <v-col cols="6" class="d-flex justify-end">
-            <v-btn variant="plain" class="small-text custom-btn"> See All </v-btn>
+            <a href="" style="text-decoration: none" class="small-text custom-btn"> See All </a>
           </v-col>
         </v-row>
         <v-row>
@@ -188,7 +188,7 @@ onMounted(async () => {
             <h1 class="bold-heading">Hot Deals!</h1>
           </v-col>
           <v-col cols="6" class="d-flex justify-end">
-            <v-btn variant="plain" class="small-text custom-btn"> See All </v-btn>
+            <a href="" style="text-decoration: none" class="small-text custom-btn"> See All </a>
           </v-col>
         </v-row>
         <v-row>

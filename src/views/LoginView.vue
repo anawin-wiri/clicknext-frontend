@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { mdiAccount, mdiLock, mdiEye, mdiEyeOff } from '@mdi/js'
+import { mdiAccountCircleOutline, mdiEyeOff, mdiEye, mdiLockOutline } from '@mdi/js'
 import type { VForm } from 'vuetify/components'
 const username = ref('')
 const password = ref('')
@@ -8,11 +8,10 @@ const form = ref<InstanceType<typeof VForm> | null>(null)
 const valid = ref(true)
 import authService from '@/services/auth'
 import router from '@/router'
-import type { get } from 'http'
+import { onMounted } from 'vue'
+import type { th } from 'vuetify/locale'
 const reset = () => {
   form.value?.reset()
-  localStorage.removeItem('token')
-  window.location.reload()
 }
 const login = async () => {
   const { valid } = await form.value!.validate()
@@ -29,38 +28,74 @@ const login = async () => {
     }
   }
 }
+const showPass = ref(false)
 </script>
 
 <template>
   <v-app>
-    <v-main class="pa-16 bg-">
-      <v-card width="400px" class="mx-auto justify-center">
-        <v-card-title primary-title class="text-center text-h5 font-weight-bold fontKanit">
-          Login
+    <v-main class="pa-16">
+      <v-card width="500px" height="400px" class="mx-auto justify-center rounded-card">
+        <v-card-title>
+          <v-row class="mt-4 align-center">
+            <v-col
+              class="font-weight-bold d-flex align-center justify-center"
+              style="color: #4b21ef; font-size: 36px"
+            >
+              Login
+            </v-col>
+          </v-row>
         </v-card-title>
-        <v-card-text>
+
+        <v-card-text class="mt-6">
           <v-form ref="form" v-model="valid">
             <v-text-field
+              density="compact"
+              placeholder="Email address"
+              :prepend-inner-icon="mdiAccountCircleOutline"
+              variant="outlined"
               label="Username"
               v-model="username"
               :rules="[(v) => !!v || 'Username is required']"
+              color="#4b21ef"
               required
             ></v-text-field>
             <v-text-field
+              :type="showPass ? 'text' : 'password'"
+              :append-inner-icon="showPass ? mdiEye : mdiEyeOff"
+              @click:append-inner="showPass = !showPass"
+              density="compact"
+              placeholder="Enter your password"
+              :prepend-inner-icon="mdiLockOutline"
+              variant="outlined"
               label="Password"
-              type="password"
+              color="#4b21ef"
               v-model="password"
               :rules="[
                 (v) => !!v || 'Password is required',
                 (v) => v.length >= 8 || 'Password must be more than or equal 8 characters'
               ]"
-              required
             ></v-text-field>
           </v-form>
         </v-card-text>
         <v-card-actions class="justify-center">
-          <v-btn color="success" @click="login">LOGIN</v-btn>
-          <v-btn color="error" @click="reset">CLEAR</v-btn>
+          <v-btn
+            rounded="xl"
+            color="green"
+            @click="login"
+            variant="outlined"
+            width="200px"
+            style="border-radius: 2px; border-color: green"
+            >LOGIN</v-btn
+          >
+          <v-btn
+            rounded="xl"
+            color="error"
+            @click="reset"
+            variant="outlined"
+            width="200px"
+            style="border-radius: 2px; border-color: error"
+            >CLEAR</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-main>
@@ -72,7 +107,10 @@ const login = async () => {
   background-image: url('https://demo-point-insurance.clicknext.com/images/cover_profile.svg');
   background-size: cover; /* ปรับขนาดของภาพพื้นหลังให้ครอบคลุมพื้นที่ */
   background-position: center; /* จัดตำแหน่งภาพพื้นหลังให้อยู่กลาง */
-  background-repeat: no-repeat; /* ป้องกันไม่ให้ภาพพื้นหลังถูกทำซ้ำ */
+  background-repeat: no-repeat;
   min-height: 20vh; /* กำหนดความสูงของพื้นหลังให้เต็มความสูงของหน้าจอ */
+}
+.rounded-card {
+  border-radius: 16px; /* ปรับค่าให้เหมาะสมกับความโค้งที่ต้องการ */
 }
 </style>
