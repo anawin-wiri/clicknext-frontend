@@ -6,16 +6,6 @@ import userService from '@/services/user'
 import rewardService from '@/services/reward'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
-const items = [
-  {
-    promotion: 'แลก 200 คะแนนอัพไซส์เครื่องดื่มจาก M เป็น L',
-    src: '/kamu.png',
-    point: 200,
-    exp: '31 ต.ค. 66'
-  },
-  { promotion: 'ส่วนลด Sizzler 50 บาท', src: '/img-01.png', point: 250, exp: '31 ต.ค. 66' },
-  { promotion: 'ส่วนลด MisterDonut 50 บาท', src: '/donut.png', point: 250, exp: '31 ต.ค. 66' }
-]
 
 const currentUser = ref<User>()
 const rewards = ref<Reward[]>()
