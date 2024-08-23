@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type User from '@/types/user'
+import { onMounted, ref } from 'vue'
+import userService from '@/services/user'
 const items = [
   {
     promotion: 'แลก 200 คะแนนอัพไซส์เครื่องดื่มจาก M เป็น L',
@@ -9,6 +12,12 @@ const items = [
   { promotion: 'ส่วนลด Sizzler 50 บาท', src: '/img-01.png', point: 250, exp: '31 ต.ค. 66' },
   { promotion: 'ส่วนลด MisterDonut 50 บาท', src: '/donut.png', point: 250, exp: '31 ต.ค. 66' }
 ]
+const currentUser = ref<User>()
+
+onMounted(async () => {
+  // เรียกข้อมูลของผู้ใช้ปัจจุบัน
+  currentUser.value = await userService.getCurrentUser()
+})
 </script>
 <template>
   <v-app>
@@ -20,7 +29,9 @@ const items = [
           </v-col>
           <v-col>
             <h4 class="text-blue">ยินดีต้อนรับ</h4>
-            <p class="text-white">คุณ ไพศาล เสนาะเสนาะ</p>
+            <p class="text-white">
+              คุณ {{ `${currentUser?.userFirstName} ${currentUser?.userLastName}` }}
+            </p>
           </v-col>
         </v-row>
         <v-card class="rounded-card mt-2">
@@ -36,7 +47,8 @@ const items = [
             </v-col>
             <v-col cols="6" class="d-flex justify-end my-5">
               <div class="mr-4">
-                <span class="bold-text">8040</span> <span class="small-text">คะแนน</span>
+                <span class="bold-text">{{ currentUser?.userPoints }}</span>
+                <span class="small-text"> คะแนน</span>
               </div>
             </v-col>
           </v-row>

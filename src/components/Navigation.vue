@@ -14,7 +14,7 @@ const router = useRouter()
     fixed
     class="rounded-card my-5 mx-auto"
   >
-    <v-btn @Click="router.push('/')">
+    <v-btn @Click="router.push('/main')">
       <v-icon size="30px" color="#6633FF">{{ mdiHome }}</v-icon>
       หน้าหลัก
     </v-btn>
