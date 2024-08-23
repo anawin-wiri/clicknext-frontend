@@ -4,6 +4,8 @@ import MainView from './views/MainView.vue'
 import Navigation from './components/Navigation.vue'
 import { RouterView } from 'vue-router'
 import { computed, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const isLogin = computed(() => {
   return !!localStorage.getItem('token')
 })
@@ -14,6 +16,6 @@ const isLogin = computed(() => {
     <v-main>
       <RouterView></RouterView>
     </v-main>
-    <Navigation v-if="isLogin" />
+    <Navigation v-if="isLogin && route.name !== 'detail'"></Navigation>
   </v-app>
 </template>

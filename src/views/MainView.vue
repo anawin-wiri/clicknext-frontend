@@ -6,6 +6,7 @@ import userService from '@/services/user'
 import rewardService from '@/services/reward'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
+import router from '@/router'
 
 const currentUser = ref<User>()
 const rewards = ref<Reward[]>()
@@ -18,6 +19,10 @@ onMounted(async () => {
   currentUser.value = await userService.getCurrentUser()
   rewards.value = await rewardService.findAll()
 })
+
+function goToDetail(rewardId: number) {
+  router.push({ name: 'detail', params: { id: rewardId } })
+}
 </script>
 <template>
   <v-app>
@@ -169,7 +174,12 @@ onMounted(async () => {
         <v-row>
           <v-slide-group show-arrows>
             <v-slide-item v-for="reward in rewards" :key="reward.rewardId">
-              <v-card class="mx-2 my-2 rounded-card" width="400">
+              <v-card
+                class="mx-2 my-2 rounded-card"
+                width="400"
+                @click="goToDetail(reward.rewardId)"
+                style="cursor: pointer"
+              >
                 <v-img
                   :src="reward.rewardImg"
                   height="250px"
@@ -184,8 +194,9 @@ onMounted(async () => {
                   class="bold-text custom-padding-nospacing"
                   >{{ `${reward.rewardPoint} ${'คะแนน'}` }}</v-card-text
                 >
+
                 <v-card-text class="small-text">{{
-                  `${'หมดอายุ'} ${formatDateToThai(reward.endDate)}`
+                  `${'หมดอายุ'} ${rewardService.toLocalDate(reward.endDate, 'short')}`
                 }}</v-card-text>
               </v-card>
             </v-slide-item>

@@ -20,7 +20,7 @@ const router = createRouter({
       component: () => import('../views/MainView.vue')
     },
     {
-      path: '/detail',
+      path: '/detail/:id',
       name: 'detail',
       meta: { requiresAuth: true },
       component: () => import('../views/DetailView.vue')
