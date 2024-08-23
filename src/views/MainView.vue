@@ -25,9 +25,14 @@ onMounted(async () => {
       <v-container>
         <v-row class="d-flex align-center">
           <v-col cols="auto" class="d-flex align-center">
-            <v-avatar color="blue" class="mx-4 my-2">A</v-avatar>
+            <v-avatar
+              size="50"
+              style="position: absolute; margin-top: 0px; border: 3px solid white"
+            >
+              <v-img src="https://demo-point-insurance.clicknext.com/images/6s.png"></v-img>
+            </v-avatar>
           </v-col>
-          <v-col>
+          <v-col class="ml-11">
             <h4 class="text-blue">ยินดีต้อนรับ</h4>
             <p class="text-white">
               คุณ {{ `${currentUser?.userFirstName} ${currentUser?.userLastName}` }}
@@ -55,17 +60,22 @@ onMounted(async () => {
           <v-row class="d-flex align-center justify-center mx-4">
             <v-progress-linear
               bg-color="grey"
-              buffer-color="green"
-              buffer-opacity="30"
-              buffer-value="250"
-              color="blue"
+              buffer-color="transparent"
+              buffer-opacity="0"
+              color="transparent"
               height="9"
-              max="500"
-              min="0"
-              model-value="2"
+              :value="250"
+              :max="500"
               rounded
-            ></v-progress-linear>
-            <div class="ms-4">Elite</div>
+              class="gradient-progress"
+            >
+              <v-img
+                src="https://demo-point-insurance.clicknext.com/images/fire.png"
+                class="progress-image"
+                width="100%"
+                height="100%"
+              ></v-img>
+            </v-progress-linear>
           </v-row>
           <v-row class="d-flex align-center justify-center my-5">
             <div class="d-flex align-center">
@@ -106,7 +116,7 @@ onMounted(async () => {
                 ></v-img>
               </v-card-text>
               <v-card-text class="small-text custom-padding">Step count</v-card-text>
-              <v-card-text class="bold-text custom-padding my-1">6210</v-card-text>
+              <v-card-text class="bold-text custom-padding my-1">6,210</v-card-text>
             </v-card>
           </v-col>
           <v-col cols="4" class="d-flex align-center justify-center">
@@ -289,6 +299,19 @@ onMounted(async () => {
   border-radius: 5px; /* ขอบมุมกลม */
   font-size: 16px; /* ขนาดข้อความ */
   border: 2px solid #ffffff;
+}
+.gradient-progress {
+  background: linear-gradient(to right, #3c78f3, #95f358); /* ไล่สีจากน้ำเงินไปเขียว */
+  position: relative; /* ทำให้ image สามารถวางซ้อนบน progress bar */
+}
+
+.progress-image {
+  position: absolute; /* ทำให้รูปภาพวางทับบน progress bar */
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 10px;
+  object-fit: cover; /* ทำให้รูปภาพพอดีกับขนาดของ progress bar */
 }
 
 @keyframes zoom {
