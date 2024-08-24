@@ -1,17 +1,68 @@
 <script setup lang="ts">
 import userService from '@/services/user'
 import type User from '@/types/user'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { mdiKeyboardBackspace, mdiStarFourPointsCircleOutline } from '@mdi/js'
 import router from '@/router'
 import type Reward from '@/types/reward'
 import rewardService from '@/services/reward'
+import type UserReward from '@/types/userReward'
 const currentUser = ref<User>()
 const reward = ref<Reward>()
+const user = ref<User>()
 const rewardId = router.currentRoute.value.params.id.toString()
+const userReward = ref<UserReward>()
 onMounted(async () => {
   currentUser.value = await userService.getCurrentUser()
   reward.value = await rewardService.findOne(+rewardId)
+  const response = await userService.findOne(currentUser.value!.userId)
+  user.value = response.data as User
+  const res = await userService.getUserReward(currentUser.value!.userId, reward.value!.rewardId)
+  userReward.value = res.data as UserReward
+})
+const calculate = () => {
+  rewardService.reduceAmount(reward.value!.rewardId, {
+    rewardAmount: reward.value!.rewardAmount - value.value
+  })
+  userService.reducePoint(currentUser.value!.userId, {
+    userPoints: user.value!.userPoints - reward.value!.rewardPoint * value.value
+  })
+  userService.userReward({
+    userId: user.value!.userId,
+    rewardId: reward.value!.rewardId
+  })
+  router.push('/main')
+}
+const value = ref(1)
+
+const increment = () => {
+  value.value += 1
+}
+
+const decrement = () => {
+  if (value.value > 0) {
+    value.value -= 1
+  }
+}
+
+const dialog = ref(false)
+const openDialog = () => {
+  dialog.value = true
+}
+const confirm = () => {
+  calculate()
+  dialog.value = false
+}
+
+const isButtonDisabled = computed(() => {
+  const condition =
+    !user.value ||
+    !reward.value ||
+    user.value.userPoints < reward.value.rewardPoint * value.value ||
+    reward.value.rewardAmount < 1 ||
+    (user.value.userId === userReward.value?.userId &&
+      reward.value.rewardId === userReward.value?.rewardId)
+  return condition
 })
 </script>
 
@@ -32,7 +83,7 @@ onMounted(async () => {
           </span>
           <v-spacer></v-spacer>
           <span class="mr-1 mt-1" style="color: black; font-size: 24px; font-weight: bold"
-            >{{ `${currentUser?.userPoints}` }}
+            >{{ `${user?.userPoints}` }}
           </span>
           <span class="mr-2 mt-4" style="color: black; font-size: 14px; font-weight: bold"
             >คะแนน
@@ -87,7 +138,7 @@ onMounted(async () => {
               <span>
                 <div style="color: #868686; font-size: 14px" class="ml-2 mb-0">ใช้คะแนน</div>
                 <div style="color: #4b23eb; font-size: 24px; font-weight: bold" class="ml-4 mt-0">
-                  {{ reward?.rewardPoint }}
+                  {{ (reward?.rewardPoint ?? 0) * value }}
                 </div>
               </span>
               <v-spacer></v-spacer>
@@ -104,10 +155,20 @@ onMounted(async () => {
             </v-row>
             <v-divider style="color: #868686"></v-divider>
             <v-row class="ml-2 mb-2 mt-2">
-              <div style="color: black; font-size: 14px">จำนวนสินค้า</div>
-              <div style="color: #66ff99; font-size: 12px" class="mt-0">
-                (คงเหลือ {{ reward?.rewardAmount }} ชิ้น)
-              </div>
+              <span>
+                <div style="color: black; font-size: 14px">จำนวนสินค้า</div>
+                <div style="color: #66ff99; font-size: 12px" class="mt-0">
+                  (คงเหลือ {{ reward?.rewardAmount }} ชิ้น)
+                </div>
+              </span>
+              <v-spacer></v-spacer>
+              <span>
+                <div class="mr-16 counter-container">
+                  <button @click="decrement">-</button>
+                  <input type="number" v-model.number="value" class="counter-input" min="0" />
+                  <button @click="increment">+</button>
+                </div>
+              </span>
             </v-row>
           </v-card-title>
         </v-card></v-container
@@ -162,9 +223,34 @@ onMounted(async () => {
         style="position: fixed; bottom: 0; width: 100%"
         height="80px"
       >
-        <v-btn width="100%" height="60px" style="border-radius: 30px" color="#4b21ef"
+        <v-btn
+          :disabled="isButtonDisabled"
+          width="100%"
+          height="60px"
+          style="border-radius: 30px"
+          color="#4b21ef"
+          @Click="openDialog"
           >แลกสิทธิ์</v-btn
         >
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card
+            style="border-radius: 18px; border: 1px solid #4b23eb"
+            height="200px"
+            class="d-flex justify-center align-center"
+          >
+            <v-card-title class="headline" style="font-size: 28px; color: #07148c"
+              >ยืนยันการแลกสิทธิ์</v-card-title
+            >
+            <v-card-subtitle class="mt-0"> คุณต้องการแลกสิทธิ์นี้หรือไม่? </v-card-subtitle>
+            <v-card-actions class="mt-10">
+              <v-spacer></v-spacer>
+              <v-btn @click="confirm" rounded="xl" color="green" variant="outlined">ยืนยัน</v-btn>
+              <v-btn @click="dialog = false" rounded="xl" color="error" variant="outlined"
+                >ยกเลิก</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
       </v-container>
     </v-main>
   </v-app>
@@ -177,5 +263,19 @@ onMounted(async () => {
   background: linear-gradient(to top, #edf2ff, #ffffff);
   color: white;
   border: 1px solid #ffffff;
+}
+.counter-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* ระยะห่างระหว่างปุ่มและช่องกรอก */
+}
+
+.counter-input {
+  width: 60px; /* ขนาดของช่องกรอก */
+  text-align: center; /* จัดข้อความให้อยู่กลาง */
+  font-size: 16px; /* ขนาดตัวอักษร */
+  border-radius: 16px;
+  border: 2px solid #4b21ef;
 }
 </style>

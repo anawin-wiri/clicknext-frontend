@@ -4,10 +4,12 @@ import userService from '@/services/user'
 import { ref, onMounted } from 'vue'
 import { mdiTicket, mdiCreditCardScanOutline } from '@mdi/js'
 import router from '@/router'
-
+const user = ref<User>()
 const currentUser = ref<User>()
 onMounted(async () => {
   currentUser.value = await userService.getCurrentUser()
+  const response = await userService.findOne(currentUser.value!.userId)
+  user.value = response.data as User
 })
 const logout = () => {
   localStorage.removeItem('token')
@@ -36,16 +38,16 @@ const logout = () => {
             </v-avatar>
           </v-row>
           <v-row justify="center" align="center" class="mt-14 bold-text">{{
-            `${'สวัสดี'} ${'คุณ'}${currentUser?.userFirstName} ${currentUser?.userLastName}`
+            `${'สวัสดี'} ${'คุณ'}${user?.userFirstName} ${user?.userLastName}`
           }}</v-row>
-          <v-row justify="center" align="center" class="mt-4">{{ `${currentUser?.userId}` }}</v-row>
+          <v-row justify="center" align="center" class="mt-4">{{ `${user?.userId}` }}</v-row>
           <v-row justify="center" align="center" class="mt-4 mb-5">
             <a href="" style="color: #007bff; text-decoration: none">ดูโปรไฟล์ของฉัน ></a>
           </v-row>
           <v-row>
             <v-card class="gradient-card mx-auto" width="97%" height="90">
               <v-card-title justify="center" align="center" style="color: black">{{
-                `${currentUser?.userPoints} ${'คะแนน'}`
+                `${user?.userPoints} ${'คะแนน'}`
               }}</v-card-title>
               <v-card-text justify="center" align="center" style="color: black">
                 สะสมคะแนนที่ได้รับเพื่อแลกสิทธิพิเศษมากมาย

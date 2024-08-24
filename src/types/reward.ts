@@ -1,3 +1,4 @@
+import type userReward from "./userReward";
 
 export default interface Reward {
   rewardId: number;
@@ -17,5 +18,7 @@ export default interface Reward {
   rewardImg: string;
 
   rewardAmount: number;
+
+  userReward: userReward[];
 
 }

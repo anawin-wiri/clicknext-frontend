@@ -28,6 +28,10 @@ function toLocalDate(date: any, type: any) {
   }
 }
 
+const reduceAmount = (id: number, updateData: Partial<Reward>) => {
+  return http.patch(`reward/${id}`, updateData);
+}
+
 export default {
-  findAll, findOne, toLocalDate
+  findAll, findOne, toLocalDate, reduceAmount
 }

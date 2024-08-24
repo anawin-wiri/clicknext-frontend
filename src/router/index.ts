@@ -11,7 +11,11 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/LoginView.vue'),
+      beforeEnter: (to, from, next) => {
+        localStorage.removeItem('token')
+        next();
+      }
     },
     {
       path: '/main',

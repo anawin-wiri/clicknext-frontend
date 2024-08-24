@@ -1,3 +1,5 @@
+import type userReward from "./userReward";
+
 export default interface User {
   userId: number;
 
@@ -10,4 +12,6 @@ export default interface User {
   userLastName: string;
 
   userPoints: number;
+
+  userReward: userReward[];
 }
