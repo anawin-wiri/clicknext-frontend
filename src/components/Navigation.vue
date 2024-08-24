@@ -33,13 +33,13 @@ const setActiveButton = (index: number, path: string) => {
 
     <v-btn
       :class="{ 'active-btn': active === 1 }"
-      @click="setActiveButton(1, '/detail')"
+      @click="setActiveButton(1, '/coupon')"
       class="custom-button"
     >
       <v-icon :color="active === 1 ? '#00FFFF' : '#6633FF'" size="30px">
         {{ mdiStarSettingsOutline }}
       </v-icon>
-      <span :class="{ 'active-text': active === 1 }">สะสมพอยท์</span>
+      <span :class="{ 'active-text': active === 1 }">คูปองของฉัน</span>
     </v-btn>
 
     <v-btn

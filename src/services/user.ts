@@ -31,8 +31,12 @@ const getUserReward = (userId: number, rewardId: number) => {
   return http.get(`/user-reward/user/${userId}/reward/${rewardId}`)
 }
 
+const getUserRewards = (userId: number) => {
+  return http.get(`/user-reward/user/${userId}`)
+}
+
 
 
 export default {
-  findOne, getCurrentUser, reducePoint, userReward, getUserReward
+  findOne, getCurrentUser, reducePoint, userReward, getUserReward, getUserRewards
 }

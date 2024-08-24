@@ -34,6 +34,12 @@ const router = createRouter({
       name: 'profile',
       meta: { requiresAuth: true },
       component: () => import('../views/ProfileView.vue')
+    },
+    {
+      path: '/coupon',
+      name: 'coupon',
+      meta: { requiresAuth: true },
+      component: () => import('../views/CouponView.vue')
     }
   ]
 })

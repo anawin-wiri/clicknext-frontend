@@ -19,7 +19,6 @@ const login = async () => {
     try {
       const res = await authService.login(username.value, password.value)
       localStorage.setItem('token', res.data.access_token)
-      console.log(localStorage.getItem('token'))
       router.push('/main').then(() => {
         window.location.reload()
       })
@@ -33,71 +32,75 @@ const showPass = ref(false)
 
 <template>
   <v-app>
-    <v-main class="pa-16">
-      <v-card width="500px" height="400px" class="mx-auto justify-center rounded-card">
-        <v-card-title>
-          <v-row class="mt-4 align-center">
-            <v-col
-              class="font-weight-bold d-flex align-center justify-center"
-              style="color: #4b21ef; font-size: 36px"
-            >
-              Login
-            </v-col>
-          </v-row>
-        </v-card-title>
+    <v-main>
+      <v-container fluid class="d-flex flex-column align-center" style="padding-top: 20px">
+        <v-card width="100%" max-width="600px" height="auto" class="rounded-card" outlined>
+          <v-card-title>
+            <v-row class="mt-4 align-center">
+              <v-col
+                class="font-weight-bold d-flex align-center justify-center"
+                style="color: #4b21ef; font-size: 36px"
+              >
+                Login
+              </v-col>
+            </v-row>
+          </v-card-title>
 
-        <v-card-text class="mt-6">
-          <v-form ref="form" v-model="valid">
-            <v-text-field
-              density="compact"
-              placeholder="Email address"
-              :prepend-inner-icon="mdiAccountCircleOutline"
+          <v-card-text class="mt-6">
+            <v-form ref="form" v-model="valid">
+              <v-text-field
+                density="compact"
+                placeholder="Email address"
+                :prepend-inner-icon="mdiAccountCircleOutline"
+                variant="outlined"
+                label="Username"
+                v-model="username"
+                :rules="[(v) => !!v || 'Username is required']"
+                color="#4b21ef"
+                required
+              ></v-text-field>
+              <v-text-field
+                :type="showPass ? 'text' : 'password'"
+                :append-inner-icon="showPass ? mdiEye : mdiEyeOff"
+                @click:append-inner="showPass = !showPass"
+                density="compact"
+                placeholder="Enter your password"
+                :prepend-inner-icon="mdiLockOutline"
+                variant="outlined"
+                label="Password"
+                color="#4b21ef"
+                v-model="password"
+                :rules="[
+                  (v) => !!v || 'Password is required',
+                  (v) => v.length >= 8 || 'Password must be more than or equal 8 characters'
+                ]"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="justify-center mb-3">
+            <v-btn
+              rounded="xl"
+              color="green"
+              @click="login"
               variant="outlined"
-              label="Username"
-              v-model="username"
-              :rules="[(v) => !!v || 'Username is required']"
-              color="#4b21ef"
-              required
-            ></v-text-field>
-            <v-text-field
-              :type="showPass ? 'text' : 'password'"
-              :append-inner-icon="showPass ? mdiEye : mdiEyeOff"
-              @click:append-inner="showPass = !showPass"
-              density="compact"
-              placeholder="Enter your password"
-              :prepend-inner-icon="mdiLockOutline"
+              width="200px"
+              style="border-radius: 2px; border-color: green"
+            >
+              LOGIN
+            </v-btn>
+            <v-btn
+              rounded="xl"
+              color="error"
+              @click="reset"
               variant="outlined"
-              label="Password"
-              color="#4b21ef"
-              v-model="password"
-              :rules="[
-                (v) => !!v || 'Password is required',
-                (v) => v.length >= 8 || 'Password must be more than or equal 8 characters'
-              ]"
-            ></v-text-field>
-          </v-form>
-        </v-card-text>
-        <v-card-actions class="justify-center">
-          <v-btn
-            rounded="xl"
-            color="green"
-            @click="login"
-            variant="outlined"
-            width="200px"
-            style="border-radius: 2px; border-color: green"
-            >LOGIN</v-btn
-          >
-          <v-btn
-            rounded="xl"
-            color="error"
-            @click="reset"
-            variant="outlined"
-            width="200px"
-            style="border-radius: 2px; border-color: error"
-            >CLEAR</v-btn
-          >
-        </v-card-actions>
-      </v-card>
+              width="200px"
+              style="border-radius: 2px; border-color: error"
+            >
+              CLEAR
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-container>
     </v-main>
   </v-app>
 </template>
