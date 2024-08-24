@@ -11,13 +11,8 @@ onMounted(async () => {
   const response = await userService.findOne(currentUser.value!.userId)
   user.value = response.data as User
 })
-const logout = () => {
-  localStorage.removeItem('token')
-  console.log('logout')
-  router.push('/login').then(() => {
-    window.location.reload()
-  })
-}
+import { useAuthStore } from '@/stores/auth'
+const authStore = useAuthStore()
 </script>
 <template>
   <v-app>
@@ -99,7 +94,7 @@ const logout = () => {
             <v-divider></v-divider>
             <v-row class="mt-5 ml-4 mb-2">
               <span>
-                <a href="#" style="text-decoration: none" @click.prevent="logout">
+                <a href="#" style="text-decoration: none" @click.prevent="authStore.logout">
                   <v-img
                     src="https://demo-point-insurance.clicknext.com/images/logout.svg"
                     width="45px"
@@ -109,7 +104,7 @@ const logout = () => {
                 href="#"
                 style="text-decoration: none; color: black"
                 class="mt-1"
-                @click.prevent="logout"
+                @click.prevent="authStore.logout"
               >
                 <span class="ml-4 mt-1">ออกจะระบบ </span></a
               >

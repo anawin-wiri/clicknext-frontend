@@ -6,27 +6,12 @@ const username = ref('')
 const password = ref('')
 const form = ref<InstanceType<typeof VForm> | null>(null)
 const valid = ref(true)
-import authService from '@/services/auth'
-import router from '@/router'
-import { onMounted } from 'vue'
-import type { th } from 'vuetify/locale'
+import { useAuthStore } from '@/stores/auth'
+const authStore = useAuthStore()
 const reset = () => {
   form.value?.reset()
 }
-const login = async () => {
-  const { valid } = await form.value!.validate()
-  if (valid) {
-    try {
-      const res = await authService.login(username.value, password.value)
-      localStorage.setItem('token', res.data.access_token)
-      router.push('/main').then(() => {
-        window.location.reload()
-      })
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
+
 const showPass = ref(false)
 </script>
 
@@ -81,7 +66,7 @@ const showPass = ref(false)
             <v-btn
               rounded="xl"
               color="green"
-              @click="login"
+              @click="authStore.login(username, password)"
               variant="outlined"
               width="200px"
               style="border-radius: 2px; border-color: green"
