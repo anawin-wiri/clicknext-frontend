@@ -52,10 +52,14 @@ onMounted(async () => {
           <v-card width="100%" height="60px" class="custom-bottom">
             <v-row>
               <v-col class="d-flex justify-end mt-3">
-                <v-btn>คูปองของฉัน</v-btn>
+                <v-btn style="border-radius: 16px" variant="outlined" color="#4b21ef"
+                  >คูปองของฉัน</v-btn
+                >
               </v-col>
               <v-col class="mt-3">
-                <v-btn>ประวัติการแลก</v-btn>
+                <v-btn style="border-radius: 16px" variant="outlined" color="#4b21ef"
+                  >ประวัติการแลก</v-btn
+                >
               </v-col>
             </v-row>
           </v-card>
